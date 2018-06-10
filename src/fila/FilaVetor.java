@@ -21,7 +21,6 @@ public class FilaVetor<T extends Comparable<T>> implements Fila<T> {
         return tamanho;
     }    
         
-    //////////////Questao 1////////////
     public void encolher(){
         T[] aux = (T[]) new Comparable[this.tamanho];
         int tamanhoInicial = this.tamanho;
@@ -34,7 +33,6 @@ public class FilaVetor<T extends Comparable<T>> implements Fila<T> {
         this.inicio  = 0;
         this.info    = aux;
     }
-    /////////////////////////////////////
     
     @Override
     public void inserir(T valor) {
@@ -54,7 +52,7 @@ public class FilaVetor<T extends Comparable<T>> implements Fila<T> {
             for (int j = 0; j < this.tamanho -1 ; j++) {
                 if(this.info[j].compareTo(this.info[j+1]) > 0){
                     aux = this.info[j];
-                    this.info[j] = this.info[j+1];
+                    this.info[j]   = this.info[j+1];
                     this.info[j+1] = aux;
                 }
             }
@@ -72,7 +70,7 @@ public class FilaVetor<T extends Comparable<T>> implements Fila<T> {
         }
         
         this.inicio = 0;
-        this.info = aux;
+        this.info   = aux;
     }
     
     @Override

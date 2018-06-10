@@ -1,13 +1,14 @@
 package gui;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import util.AlgoritmoHuffman;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Administrador
@@ -34,8 +35,8 @@ public class Apresentacao extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        rd_compactar = new javax.swing.JRadioButton();
+        rd_descompactar = new javax.swing.JRadioButton();
         jLabel1 = new javax.swing.JLabel();
         tf_arquivo_origem = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -44,11 +45,12 @@ public class Apresentacao extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("Compactar");
+        buttonGroup1.add(rd_compactar);
+        rd_compactar.setSelected(true);
+        rd_compactar.setText("Compactar");
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Descompactar");
+        buttonGroup1.add(rd_descompactar);
+        rd_descompactar.setText("Descompactar");
 
         jLabel1.setText("Arquivo Origem");
 
@@ -69,6 +71,11 @@ public class Apresentacao extends javax.swing.JFrame {
         });
 
         jButton1.setText("Processar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -81,8 +88,8 @@ public class Apresentacao extends javax.swing.JFrame {
                     .addComponent(tf_arquivo_destino)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButton1)
-                            .addComponent(jRadioButton2)
+                            .addComponent(rd_compactar)
+                            .addComponent(rd_descompactar)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
                         .addGap(0, 272, Short.MAX_VALUE)))
@@ -93,9 +100,9 @@ public class Apresentacao extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jRadioButton1)
+                .addComponent(rd_compactar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButton2)
+                .addComponent(rd_descompactar)
                 .addGap(27, 27, 27)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -117,7 +124,7 @@ public class Apresentacao extends javax.swing.JFrame {
         JFileChooser jfc = new JFileChooser(tf_arquivo_origem.getText());
         jfc.setDialogTitle("Selecionar caminho");
         jfc.setApproveButtonText("Selecionar");
-        
+
         if (jfc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             this.tf_arquivo_origem.setText(jfc.getSelectedFile().toString());
         }
@@ -128,11 +135,22 @@ public class Apresentacao extends javax.swing.JFrame {
         JFileChooser jfc = new JFileChooser(tf_arquivo_destino.getText());
         jfc.setDialogTitle("Selecionar caminho");
         jfc.setApproveButtonText("Selecionar");
-        
+
         if (jfc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             this.tf_arquivo_destino.setText(jfc.getSelectedFile().toString());
         }
     }//GEN-LAST:event_tf_arquivo_destinoMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        if (this.rd_compactar.isSelected()) {
+            AlgoritmoHuffman.compactar(this.tf_arquivo_origem.getText(),
+                    this.tf_arquivo_destino.getText());
+            JOptionPane.showMessageDialog(this, "Compactado");
+        } else {
+            JOptionPane.showMessageDialog(this, "Falta fazer");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -174,8 +192,8 @@ public class Apresentacao extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JRadioButton rd_compactar;
+    private javax.swing.JRadioButton rd_descompactar;
     private javax.swing.JTextField tf_arquivo_destino;
     private javax.swing.JTextField tf_arquivo_origem;
     // End of variables declaration//GEN-END:variables
