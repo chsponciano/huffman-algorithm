@@ -20,24 +20,26 @@ public abstract class AlgoritmoHuffman {
     private static int contador;
 
     public static void compactar(final String origem, final String destino) {
-        String palavra = getText(origem);
-        String compactado = getMap(palavra, getTree(getFrequency(palavra)).navegacaoPre());
-        
+        String palavra = lerConteudo(origem);
+        String compactado = getMap(palavra, getTree(getFrequency(palavra)));
+        salvarCompactacao(compactado, destino);
+    }
+
+    private static void salvarCompactacao(final String compactado, final String destino) {
         try {
-            if(Files.deleteIfExists(Paths.get(destino))){
+            if (Files.deleteIfExists(Paths.get(destino))) {
                 Files.createFile(Paths.get(destino));
             }
-            
+
             BufferedWriter bw = new BufferedWriter(new FileWriter(destino));
-            bw.write(compactado.toString());
+            bw.write(compactado);
             bw.close();
         } catch (IOException ex) {
             Logger.getLogger(AlgoritmoHuffman.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
-
-    private static String getText(String local) {
+    
+    private static String lerConteudo(final String local) {        
         String str = "";
         try {
             BufferedReader br = new BufferedReader(new FileReader(local));
@@ -48,29 +50,43 @@ public abstract class AlgoritmoHuffman {
         } catch (IOException ex) {
             Logger.getLogger(AlgoritmoHuffman.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return str;
     }
 
-    private static String getMap(String palavra, String[] bytes) {
-        final String pula_linha = System.getProperty("line.separator");
-        char[] letras = palavra.toCharArray();
+    private static String[] map;
+    private static int tamanhoMap = 0;
+    private static void getConstructMap(NoArvoreBinaria no, final String bytes) {
+        if (no.eFolha()) {
+            map[tamanhoMap++] = String.valueOf(no.getInfo());
+            map[tamanhoMap++] = bytes;
+        } else {
+            getConstructMap(no.getEsquerda(), bytes + "0");
+            getConstructMap(no.getDireita(), bytes + "1");
+        }
+    }
+
+    private static String getMap(String palavra, ArvoreBinaria arvore) {
+        map = new String[arvore.contarFolhas() * 2];
+        getConstructMap(arvore.getRaiz(), "");
+
+        final String PULA_LINHA = System.getProperty("line.separator");
+
         String palavraByte = "", palavraLegenda = "";
-        for (int i = 0; i < letras.length; i++) {
-            for (int j = 0; j < bytes.length;) {
-                char aux = (char) (Integer.parseInt(bytes[j]));
-                if (aux == letras[i]) {
-                    palavraByte += bytes[j + 1];
+        for (int i = 0; i < palavra.length(); i++) {
+            for (int j = 0; j < map.length; j += 2) {
+                char aux = (char) Integer.parseInt(map[j]);
+                if (aux == palavra.charAt(i)) {
+                    palavraByte += map[j + 1] + " ";
                 }
-                j += 2;
             }
         }
 
-        for (int i = 0; i < bytes.length; i++) {
-            palavraLegenda += (char) (Integer.parseInt(bytes[i++])) + " - " + bytes[i] + pula_linha;
+        for (int i = 0; i < tamanhoMap; i++) {
+            palavraLegenda += (char) (Integer.parseInt(map[i++])) + " - " + map[i] + PULA_LINHA;
         }
 
-        return palavraLegenda + pula_linha + palavraByte;
+        return palavraLegenda + PULA_LINHA + palavraByte;
     }
 
     private static ArvoreBinaria<Character> getTree(int[] frequencia) {
@@ -105,7 +121,7 @@ public abstract class AlgoritmoHuffman {
         int[] lista = new int[LIMITE_ASCII];
 
         for (final char caracter : palavra.toCharArray()) {
-            contador += (lista[caracter] == 0) ? 1 : 0;
+            if(lista[caracter] == 0){ contador++; }
             lista[caracter]++;
         }
 

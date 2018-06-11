@@ -9,6 +9,10 @@ public class NoArvoreBinaria<T> implements Comparable<NoArvoreBinaria<T>>{
     private NoArvoreBinaria<T> esquerda;
     private NoArvoreBinaria<T> direita;
 
+    public boolean eFolha(){
+        return ((esquerda == null) && (direita == null));
+    }
+    
     public NoArvoreBinaria(T caracter) {
         this.info = caracter;
         this.esquerda = null;

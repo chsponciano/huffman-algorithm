@@ -9,6 +9,8 @@ import java.util.regex.Pattern;
 public class ArvoreBinaria<T> {
 
     private NoArvoreBinaria<T> raiz;
+    private String[] map;
+    private int tamanhoMap = 0;
 
     public ArvoreBinaria() {
         this.raiz = null;
@@ -32,6 +34,10 @@ public class ArvoreBinaria<T> {
 
     public void setRaiz(NoArvoreBinaria raiz) {
         this.raiz = raiz;
+    }
+
+    public NoArvoreBinaria<T> getRaiz() {
+        return raiz;
     }
 
     public boolean estaVazia() {
@@ -66,36 +72,6 @@ public class ArvoreBinaria<T> {
                     + arvorePre(no.getDireita())
                     + ">";
         }
-    }
-
-    public String[] navegacaoPre() {
-        return navegacaoPre(navegacaoPre(raiz));
-    }
-
-    private String navegacaoPre(NoArvoreBinaria<T> no) {
-        String str;
-        if (no == null) {
-            return "";
-        } else {
-            str  = (no.getInfo().equals('\0')) ? "" : " - " + (T) no.getInfo() + ";";
-            str += "0" + navegacaoPre(no.getEsquerda());
-            str += "1" + navegacaoPre(no.getDireita());
-            return str;
-        }
-    }
-    
-    private String[] navegacaoPre(String aux){
-        String[] auxArr = aux.substring(0, aux.length()-2).split(Pattern.quote(";"));
-        String[] digArr = new String[auxArr.length*2];
-        
-        for (int i = 0, j = 0; i < auxArr.length; i++) {
-            String[] sepDig = auxArr[i].split(" - ");
-            digArr[j++] = sepDig[1];
-            digArr[j++] = sepDig[0];
-
-        }
-        
-        return digArr;
     }
 
     public int contarNos() {
