@@ -78,7 +78,7 @@ public abstract class AlgoritmoHuffman {
             for (int j = 0; j < map.length; j += 2) {
                 char aux = (char) Integer.parseInt(map[j]);
                 if (aux == palavra.charAt(i)) {
-                    palavraByte += map[j + 1] + " ";
+                    palavraByte += map[j + 1];
                 }
             }
         }
