@@ -55,7 +55,7 @@ public abstract class AlgoritmoHuffman {
     }
 
     private static String[] map;
-    private static int tamanhoMap = 0;
+    private static int tamanhoMap;
     private static void getConstructMap(NoArvoreBinaria no, final String bytes) {
         if (no.eFolha()) {
             map[tamanhoMap++] = String.valueOf(no.getInfo());
@@ -67,6 +67,7 @@ public abstract class AlgoritmoHuffman {
     }
 
     private static String getMap(String palavra, ArvoreBinaria arvore) {
+        tamanhoMap = 0;
         map = new String[arvore.contarFolhas() * 2];
         getConstructMap(arvore.getRaiz(), "");
 
@@ -86,7 +87,7 @@ public abstract class AlgoritmoHuffman {
             palavraLegenda += (char) (Integer.parseInt(map[i++])) + " - " + map[i] + PULA_LINHA;
         }
 
-        return palavraLegenda + PULA_LINHA + palavraByte;
+        return arvore.contarFolhas() + PULA_LINHA + palavraLegenda + palavraByte;
     }
 
     private static ArvoreBinaria<Character> getTree(int[] frequencia) {
