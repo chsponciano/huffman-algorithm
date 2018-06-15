@@ -41,7 +41,8 @@ public class Apresentacao extends javax.swing.JFrame {
         tf_arquivo_origem = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         tf_arquivo_destino = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -70,12 +71,14 @@ public class Apresentacao extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Processar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButton2.setText("Processar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
+
+        jLabel3.setText("Carlos & Vinicius");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -85,35 +88,43 @@ public class Apresentacao extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tf_arquivo_origem)
+                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(tf_arquivo_destino)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(rd_compactar)
                             .addComponent(rd_descompactar)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
-                        .addGap(0, 272, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(rd_compactar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 196, Short.MAX_VALUE)
+                        .addComponent(jLabel3)))
                 .addContainerGap())
-            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(rd_compactar)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addComponent(rd_compactar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel3)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(rd_descompactar)
-                .addGap(27, 27, 27)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tf_arquivo_origem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tf_arquivo_destino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(57, 57, 57))
+                .addGap(12, 12, 12)
+                .addComponent(jButton2)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
@@ -123,7 +134,7 @@ public class Apresentacao extends javax.swing.JFrame {
         // TODO add your handling code here:
         JFileChooser jfc = new JFileChooser(tf_arquivo_origem.getText());
         jfc.setDialogTitle("Selecionar caminho");
-        jfc.setApproveButtonText("Selecionar");
+        jfc.setApproveButtonText("Carregar");
 
         if (jfc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             this.tf_arquivo_origem.setText(jfc.getSelectedFile().toString());
@@ -134,25 +145,35 @@ public class Apresentacao extends javax.swing.JFrame {
         // TODO add your handling code here:
         JFileChooser jfc = new JFileChooser(tf_arquivo_destino.getText());
         jfc.setDialogTitle("Selecionar caminho");
-        jfc.setApproveButtonText("Selecionar");
+        jfc.setApproveButtonText("Carregar");
 
         if (jfc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             this.tf_arquivo_destino.setText(jfc.getSelectedFile().toString());
         }
     }//GEN-LAST:event_tf_arquivo_destinoMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         if (this.rd_compactar.isSelected()) {
-            AlgoritmoHuffman.compactar(this.tf_arquivo_origem.getText(),
-                    this.tf_arquivo_destino.getText());
-            JOptionPane.showMessageDialog(this, "Compactado");
+            if(AlgoritmoHuffman.compactar(
+                                            this.tf_arquivo_origem.getText(),
+                                            this.tf_arquivo_destino.getText()
+                                         )){
+                JOptionPane.showMessageDialog(this, "Compactado");
+            }else{
+                JOptionPane.showMessageDialog(this, "Ocorreu um erro ao compactar");
+            }
         } else {
-            AlgoritmoHuffman.descompactar(this.tf_arquivo_origem.getText(),
-                    this.tf_arquivo_destino.getText());
-            JOptionPane.showMessageDialog(this, "Descompactado");
+            if(AlgoritmoHuffman.descompactar(
+                                                this.tf_arquivo_origem.getText(),
+                                                this.tf_arquivo_destino.getText()
+                                            )){
+                JOptionPane.showMessageDialog(this, "Descompactado");
+            }else{
+                JOptionPane.showMessageDialog(this, "Ocorreu um erro ao descompactar");
+            }
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -191,9 +212,10 @@ public class Apresentacao extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JRadioButton rd_compactar;
     private javax.swing.JRadioButton rd_descompactar;
     private javax.swing.JTextField tf_arquivo_destino;

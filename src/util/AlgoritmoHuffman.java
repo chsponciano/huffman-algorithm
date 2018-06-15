@@ -12,27 +12,36 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 
 public abstract class AlgoritmoHuffman {
 
     private static final int LIMITE_ASCII = 256;
     private static final char CARACTER_NULO = '\0';
     private static int contador;
+    private static String[] map;
+    private static int tamanhoMap;
 
-    public static void compactar(final String origem, final String destino) {
+    public static boolean compactar(final String origem, final String destino) {
         String palavra = lerConteudo(origem, false);
+        if(palavra.isEmpty()){
+            return false;
+        }
+        
         String compactado = getMap(palavra, getTree(getFrequency(palavra)));
-        salvarConteudo(compactado, destino);
+        return salvarConteudo(compactado, destino);
     }
 
-    public static void descompactar(final String origem, final String destino){
+    public static boolean descompactar(final String origem, final String destino){
         String conteudo = lerConteudo(origem, true);
+        if(conteudo.isEmpty()){
+            return false;
+        }
+        
         String descompactado = getInterpret(conteudo);
-        salvarConteudo(descompactado, destino);
+        return salvarConteudo(descompactado, destino);
     }
     
-    private static void salvarConteudo(final String conteudo, final String destino) {
+    private static boolean salvarConteudo(final String conteudo, final String destino) {
         try {
             if (Files.deleteIfExists(Paths.get(destino))) {
                 Files.createFile(Paths.get(destino));
@@ -41,8 +50,10 @@ public abstract class AlgoritmoHuffman {
             BufferedWriter bw = new BufferedWriter(new FileWriter(destino));
             bw.write(conteudo);
             bw.close();
+            return true;
         } catch (IOException ex) {
             Logger.getLogger(AlgoritmoHuffman.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
     }
     
@@ -64,22 +75,20 @@ public abstract class AlgoritmoHuffman {
         return str;
     }
 
-    private static String[] map;
-    private static int tamanhoMap;
-    private static void getConstructMap(NoArvoreBinaria no, final String bytes) {
+    private static void constructMap(NoArvoreBinaria no, final String bytes) {
         if (no.eFolha()) {
             map[tamanhoMap++] = String.valueOf(no.getInfo());
             map[tamanhoMap++] = bytes;
         } else {
-            getConstructMap(no.getEsquerda(), bytes + "0");
-            getConstructMap(no.getDireita(), bytes + "1");
+            constructMap(no.getEsquerda(), bytes + "0");
+            constructMap(no.getDireita(), bytes + "1");
         }
     }
 
     private static String getMap(String palavra, ArvoreBinaria arvore) {
         tamanhoMap = 0;
         map = new String[arvore.contarFolhas() * 2];
-        getConstructMap(arvore.getRaiz(), "");
+        constructMap(arvore.getRaiz(), "");
 
         final String PULA_LINHA = System.getProperty("line.separator");
 
