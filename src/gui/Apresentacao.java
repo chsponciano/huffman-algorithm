@@ -148,7 +148,9 @@ public class Apresentacao extends javax.swing.JFrame {
                     this.tf_arquivo_destino.getText());
             JOptionPane.showMessageDialog(this, "Compactado");
         } else {
-            JOptionPane.showMessageDialog(this, "Falta fazer");
+            AlgoritmoHuffman.descompactar(this.tf_arquivo_origem.getText(),
+                    this.tf_arquivo_destino.getText());
+            JOptionPane.showMessageDialog(this, "Descompactado");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
