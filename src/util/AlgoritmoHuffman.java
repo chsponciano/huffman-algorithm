@@ -2,7 +2,6 @@ package util;
 
 import arvore.ArvoreBinaria;
 import arvore.NoArvoreBinaria;
-import fila.FilaVetor;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -12,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import lista.ListaOrdenada;
 
 public abstract class AlgoritmoHuffman {
 
@@ -103,37 +103,41 @@ public abstract class AlgoritmoHuffman {
         }
 
         for (int i = 0; i < tamanhoMap; i++) {
-            palavraLegenda += (char) (Integer.parseInt(map[i++])) + " - " + map[i] + PULA_LINHA;
+            palavraLegenda += Integer.parseInt(map[i++]) + "=" + map[i] + PULA_LINHA;
         }
 
         return arvore.contarFolhas() + PULA_LINHA + palavraLegenda + palavraByte;
     }
 
-    private static ArvoreBinaria<Character> getTree(int[] frequencia) {
-        FilaVetor<NoArvoreBinaria<Character>> filaNoArvore = new FilaVetor<>(contador);
-        for (int i = 0; i < LIMITE_ASCII; i++) {
-            if (frequencia[i] != 0) {
-                filaNoArvore.inserir(new NoArvoreBinaria(i, frequencia[i], null, null));
+    private static ArvoreBinaria<Character> getTree(int[] frequencia){
+        ListaOrdenada<NoArvoreBinaria<Character>> listaNoArvore = new ListaOrdenada<>();
+        
+        for(int i = 0; i < LIMITE_ASCII; i++){
+            if(frequencia[i] != 0){
+                listaNoArvore.inserir(new NoArvoreBinaria(i, frequencia[i], null, null));
             }
         }
-
-        if (filaNoArvore.getTamanho() == 1) {
-            filaNoArvore.inserir(new NoArvoreBinaria(CARACTER_NULO, 1, null, null));
+        
+        if(listaNoArvore.getTamanho() == 1){
+            listaNoArvore.inserir(new NoArvoreBinaria(CARACTER_NULO, 1, null, null));
         }
-
-        while (filaNoArvore.getTamanho() > 1) {
-            final NoArvoreBinaria esquerda = filaNoArvore.retirar();
-            final NoArvoreBinaria direita = filaNoArvore.retirar();
-            filaNoArvore.inserir(new NoArvoreBinaria(
-                    CARACTER_NULO,
-                    (esquerda.getFrequencia() + direita.getFrequencia()),
-                    esquerda,
-                    direita));
+        
+        while(listaNoArvore.getTamanho() > 1){
+            final NoArvoreBinaria esquerda = listaNoArvore.obterElemento(0);
+            final NoArvoreBinaria direita = listaNoArvore.obterElemento(1);
+            
+            listaNoArvore.retirar(esquerda);
+            listaNoArvore.retirar(direita);
+            
+            listaNoArvore.inserir(new NoArvoreBinaria(CARACTER_NULO, (esquerda.getFrequencia() + direita.getFrequencia()),
+                                                      esquerda, direita));
         }
-
+        
+        NoArvoreBinaria<Character> raiz = listaNoArvore.obterElemento(0);
+        listaNoArvore.retirar(raiz);
         ArvoreBinaria<Character> arvore = new ArvoreBinaria<>();
-        arvore.setRaiz(filaNoArvore.retirar());
-
+        arvore.setRaiz(raiz);
+        
         return arvore;
     }
 
@@ -156,9 +160,9 @@ public abstract class AlgoritmoHuffman {
         String palavra = "";
 
         for (int i = 1, j = 0; i < arrStr.length-1; i++, j++) {
-            String[] str = arrStr[i].split("-");
-            mapBytes[j++] = String.valueOf(str[0].charAt(0));
-            mapBytes[j] = str[1].substring(1, str[1].length());
+            String[] str = arrStr[i].split("=");
+            mapBytes[j++] = String.valueOf((char) Integer.parseInt(str[0]));
+            mapBytes[j] = str[1];
         }
 
         
