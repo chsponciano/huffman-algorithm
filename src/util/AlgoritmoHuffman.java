@@ -13,6 +13,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import lista.ListaOrdenada;
 
+/**
+ *
+ * @author Carlos Henrique Ponciano da Silva && Vinicius Luis da Silva
+ */
+
 public abstract class AlgoritmoHuffman {
 
     private static final int LIMITE_ASCII = 256;

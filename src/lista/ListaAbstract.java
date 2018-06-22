@@ -2,7 +2,7 @@ package lista;
 
 /**
  *
- * @author Carlos Henrique Ponciano da Silva
+ * @author Carlos Henrique Ponciano da Silva && Vinicius Luis da Silva
  */
 
 public abstract class ListaAbstract<T>{
@@ -16,6 +16,10 @@ public abstract class ListaAbstract<T>{
 
     public void setTamanho(int tamanho) {
         this.tamanho = tamanho;
+    }
+
+    public void setInfo(T[] info) {
+        this.info = info;
     }
 
     public ListaAbstract() {
@@ -93,7 +97,7 @@ public abstract class ListaAbstract<T>{
         return str;
     }
     
-    private void redimensionar() {
+    protected void redimensionar() {
         T[] redimensionado = (T[]) new Comparable[this.info.length + TAMANHO_PADRAO];
         for (int i = 0; i < this.tamanho; i++) {
             redimensionado[i] = this.info[i];

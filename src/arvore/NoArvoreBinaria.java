@@ -1,7 +1,7 @@
 package arvore;
 /**
  *
- * @author Carlos Henrique Ponciano da Silva
+ * @author Carlos Henrique Ponciano da Silva && Vinicius Luis da Silva
  */
 public class NoArvoreBinaria<T> implements Comparable<NoArvoreBinaria<T>>{
     private T info;

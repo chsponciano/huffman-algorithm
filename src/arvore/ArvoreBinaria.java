@@ -1,10 +1,8 @@
 package arvore;
 
-import java.util.regex.Pattern;
-
 /**
  *
- * @author Carlos Henrique Ponciano da Silva
+ * @author Carlos Henrique Ponciano da Silva && Vinicius Luis da Silva
  */
 public class ArvoreBinaria<T> {
 
@@ -16,7 +14,6 @@ public class ArvoreBinaria<T> {
         this.raiz = null;
     }
 
-    //////////////Questao 2////////////
     public int contarFolhas() {
         return contarFolhas(this.raiz);
     }
@@ -30,7 +27,6 @@ public class ArvoreBinaria<T> {
         }
         return contarFolhas(no.getDireita()) + contarFolhas(no.getEsquerda());
     }
-    /////////////////////////////////////
 
     public void setRaiz(NoArvoreBinaria raiz) {
         this.raiz = raiz;

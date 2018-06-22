@@ -4,14 +4,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import util.AlgoritmoHuffman;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
  *
- * @author Administrador
+ * @author Carlos Henrique Ponciano da Silva && Vinicius Luis da Silva
  */
 public class Apresentacao extends javax.swing.JFrame {
 
